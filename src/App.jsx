@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { InputTodo } from "./componets/InputTodo";
 import { IncompleteTodos } from "./componets/IncompleteTodos";
@@ -8,7 +8,9 @@ export const App = () => {
   const [todoText, setTodoText] = useState("");
   const [incompleteTodos, setIncompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
+  const [incompleteTodosCount, setIncompleteTodosCount] = useState([false]);
 
+  console.log(incompleteTodos.length);
   const onChangeTodoText = (evet) => setTodoText(evet.target.value);
 
   const onClickAdd = () => {
@@ -44,15 +46,27 @@ export const App = () => {
     return newTodos;
   };
 
+  useEffect(() => {
+    console.log();
+    const newIncompleteTodos = [...incompleteTodos];
+    if (newIncompleteTodos.length >= 5 && newIncompleteTodos.length !== 0) {
+      alert("登録できるTODOは5個までです。");
+      setIncompleteTodosCount(true);
+      return incompleteTodosCount;
+    } else {
+      setIncompleteTodosCount(false);
+      return incompleteTodosCount;
+    }
+  }, [incompleteTodos]);
+
   return (
     <>
       <InputTodo
         todoText={todoText}
         onChange={onChangeTodoText}
         onClick={onClickAdd}
-        disabled={incompleteTodos.length >= 5}
+        disabled={incompleteTodosCount}
       />
-      {incompleteTodos.length >= 5 && alert("登録できるTODOは5個までです。")}
       <IncompleteTodos
         todos={incompleteTodos}
         onClickComplete={onClickComplete}

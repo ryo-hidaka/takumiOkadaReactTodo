@@ -11,6 +11,7 @@ const style = {
 
 export const InputTodo = (props) => {
   const { todoText, onChange, onClick, disabled } = props;
+  console.log(disabled);
   return (
     <div style={style}>
       <input
